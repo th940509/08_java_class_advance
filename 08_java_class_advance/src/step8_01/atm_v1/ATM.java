@@ -88,7 +88,7 @@ public class ATM {
 					userManager.user[identifier].acc[0].number = makeAccount; // number에 위의 랜덤 숫자 대입
 				
 				}
-				else { //한 아이디에 여러개 계좌를 생성할때
+				else { // 한 아이디에 여러개 계좌를 생성할때
 					Account[] temp = userManager.getUser(identifier).acc; // temp에 user(0).acc 주소 공유
 					int tempAccCount = userManager.getUser(identifier).accCount; // tempAccCount에 1대입
 					userManager.user[identifier].acc = new Account[tempAccCount+1];  // new Account[1+1]
