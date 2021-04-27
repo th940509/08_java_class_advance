@@ -16,7 +16,7 @@ public class UserManager {
 	
 	
 	
-	void addUser() { 
+	void addUser() { //userCount의 초기값 = 0
 		
 		if(userCount == 0) { // 처음 가입할때
 			user = new User[1]; // 클래스 배열 user 값 null -> [1]
@@ -44,7 +44,7 @@ public class UserManager {
 			user[userCount] = new User(); //user[0] 에 User의 객체 대입
 			user[userCount].id = id; // 위의 입력한 id를 user[0].id에 저장
 			System.out.println("[메시지] ID : '" + id+ "' 가입 되었습니다.\n");
-			userCount++; // userCount 0+1 = 1 // (2) userCount = 2
+			userCount++; // (1) userCount 0+1 = 1 // (2) userCount = 2
 		}
 		else { // 위의 39번째 if문이 성립되어 isDuple이 true일 경우
 			System.out.println("[메시지] '"+ id + "'은 이미 가입된 아이디 입니다.\n");

@@ -30,12 +30,12 @@ public class ATM {
 	}
 	
 	
-	void login() {
+	void login() { // 로그인
 		
 		identifier = userManager.logUser();
 		
 		if (identifier != -1) {
-			printAccountMenu();
+			printAccountMenu(); 
 		}
 		else {
 			System.out.println("[메세지] 로그인실패.");
@@ -44,13 +44,13 @@ public class ATM {
 	}
 	
 	
-	void join() { 
+	void join() { // 회원가입
 		
 		userManager.addUser();
 	}
 	
 	
-	void logout() {
+	void logout() { // 로그아웃
 		
 		if (identifier == -1) {
 			System.out.println("[메시지] 로그인을 하신 후 이용하실 수 있습니다.");
