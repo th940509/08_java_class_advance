@@ -70,7 +70,7 @@ public class ATM {
 	}
 	
 	
-	void printAccountMenu() { // identifier = 0 /(2) identifier = 1
+	void printAccountMenu() { // identifier = 0 / (2) identifier = 1
 		
 		while (true) {
 			
@@ -81,17 +81,18 @@ public class ATM {
 			 
 			
 			if (sel == 1) { // 계좌생성
-				if (userManager.user[identifier].accCount == 0) { 
-					userManager.user[identifier].acc = new Account[1]; // [1]만큼의 클래스 배열 생성
-					
-					userManager.user[identifier].acc[0] = new Account(); // 객체 대입
+				if (userManager.user[identifier].accCount == 0) { // 계좌 처음 생성할때 accCount = 0
+					userManager.user[identifier].acc = new Account[1]; // [1]크기의 클래스 배열 생성
+					//Account[] acc
+					userManager.user[identifier].acc[0] = new Account(); // 객체 대입 (number, money)
 					userManager.user[identifier].acc[0].number = makeAccount; // number에 위의 랜덤 숫자 대입
 				
 				}
 				else { // 한 아이디에 여러개 계좌를 생성할때
 					Account[] temp = userManager.getUser(identifier).acc; // temp에 user(0).acc 주소 공유
-					int tempAccCount = userManager.getUser(identifier).accCount; // tempAccCount에 1대입
+					int tempAccCount = userManager.getUser(identifier).accCount; // tempAccCount = 1
 					userManager.user[identifier].acc = new Account[tempAccCount+1];  // new Account[1+1]
+					//Account[] acc = new Account[2] -> [2]크기의 클래스 배열 생성
 					for (int i = 0; i < tempAccCount; i++) { // int i=0; i<1; i++ 일때 i=0일때만 성립
 						userManager.user[identifier].acc[i] = temp[i]; // user[0].acc[0]에 temp[0] 대입
 					}
@@ -99,19 +100,19 @@ public class ATM {
 					userManager.user[identifier].acc[tempAccCount].number = makeAccount; // user[0].acc[1].number에 랜덤 숫자 생성
 					
 				}
-				userManager.user[identifier].accCount++; // accCount 0+1 = 1 // 1+1 = 2
+				userManager.user[identifier].accCount++; // (1) accCount 0+1 = 1 / (2) 1+1 = 2
 				System.out.println("[메시지]'"+makeAccount +"'계좌가 생성되었습니다.\n");
 			} 	
 			else if (sel == 2) { // 계좌삭제
 				
-				if (userManager.user[identifier].accCount == 0) {
+				if (userManager.user[identifier].accCount == 0) { // 계좌를 생성하지 않을 경우 accCount = 0
 					System.out.println("[메시지] 더 이상 삭제할 수 없습니다.\n");
 					continue;
 				}
 				
-				if ( userManager.user[identifier].accCount == 1) { // 1개일때 
+				if ( userManager.user[identifier].accCount == 1) { // 계좌가 1개일때 
 					System.out.println("[메시지] 계좌번호 :'"+ userManager.user[identifier].acc[0].number+"' 삭제 되었습니다.\n");
-					userManager.user[identifier].acc = null;
+					userManager.user[identifier].acc = null; // acc배열에 null
 				}
 				else { // 계좌가 여러개 일때
 					
@@ -133,20 +134,20 @@ public class ATM {
 						System.out.println("[메시지] 계좌번호 :'"+ userManager.user[identifier].acc[delIdx].number+"' 삭제 되었습니다.\n");
 						
 						Account[] temp = userManager.user[identifier].acc; //temp에 user[0].acc 주소 공유
-						userManager.user[identifier].acc = new Account[tempAccCount-1]; // user[0].acc에 [2-1] Account 배열 생성
-						                                                                // user[0].acc의 크기는 [1]
+						userManager.user[identifier].acc = new Account[tempAccCount-1]; // user[0].acc에 Account [2-1] 배열 생성
+						                                                                // user[0].acc 배열의 크기 [1]
 						
 						for (int i = 0; i < delIdx; i++) { // 삭제할 delIdx = 1일 경우, i=0일때만 성립
-							                               // ser[0].acc[0] = temp[0]대입
+							                               // user[0].acc[0] = temp[0]대입 ( 삭제할 인덱스 전의 것 저장? )
 							userManager.user[identifier].acc[i] = temp[i];
 						}
 						for (int i = delIdx; i < tempAccCount - 1; i++) { // int i=1; i<1; i++ 성립X
-							userManager.user[identifier].acc[i] = temp[i+1];
+							userManager.user[identifier].acc[i] = temp[i+1]; 
 						}
 					}
 					
 				}
-				userManager.user[identifier].accCount--; // 2-1 =1
+				userManager.user[identifier].accCount--; // accCount => 2-1 =1
 				
 			}
 			

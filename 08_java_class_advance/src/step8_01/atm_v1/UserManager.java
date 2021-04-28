@@ -19,7 +19,7 @@ public class UserManager {
 	void addUser() { //userCount의 초기값 = 0
 		
 		if(userCount == 0) { // 처음 가입할때
-			user = new User[1]; // 클래스 배열 user 값 null -> [1]
+			user = new User[1]; // 클래스 배열 user 값 null -> 배열의 크기[1]로 변경
 		}
 		else { // 2번째 가입할때 userCount = 1
 			User[] temp = user; // 위의 가입한 정보를 temp 클래스 배열에 주소 공유
