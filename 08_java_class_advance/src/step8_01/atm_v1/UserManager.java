@@ -16,7 +16,7 @@ public class UserManager {
 	
 	
 	
-	void addUser() { //userCount의 초기값 = 0
+	void addUser() { //userCount의 초기값 = 0 , user[] = null
 		
 		if(userCount == 0) { // 처음 가입할때
 			user = new User[1]; // 클래스 배열 user 값 null -> 배열의 크기[1]로 변경
@@ -100,14 +100,14 @@ public class UserManager {
 		
 		System.out.println("ID : '" +user[identifier].id + "' 가 탈퇴되었습니다.");
 		
-		User[] temp = user;
-		user = new User[userCount - 1];
+		User[] temp = user; // user 주소 공유
+		user = new User[userCount - 1]; // user배열 크기 줄이기
 		
 		for(int i = 0; i < identifier; i++) {
-			user[i] = temp[i];
+			user[i] = temp[i]; // identifier 기준으로 전의 것 저장
 		}
 		for(int i =identifier; i < userCount-1; i++) {
-			user[i] =temp[i + 1];
+			user[i] =temp[i + 1]; // 후의 것 저장
 		}
 		
 		userCount--;
