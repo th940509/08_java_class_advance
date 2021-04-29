@@ -51,7 +51,7 @@ public class ATM {
 				AccountManager.getInstance().createAcc(identifier);
 				FileManager.getInstance().save();
 			}
-			else if (selectMenu == 2) { // 계좌삭제
+			else if (selectMenu == 2) { // 계좌삭제 (구현해보기) 17:40 ~ 18:33
 				if (UserManager.getInstance().userList[identifier].accCnt == 0) { // 계좌를 생성하지 않은 경우
 					System.out.println("[메세지] 더 이상 삭제할 수 없습니다.\n");
 				}
@@ -62,8 +62,32 @@ public class ATM {
 					System.out.println("삭제 하고 싶은 계좌번호를 입력하세요: ");
 					String deleteAccount = scan.next();
 					
+					int tempAccCount = UserManager.getInstance().userList[identifier].accCnt;
+					int delIdx = -1;
+					for (int i=0; i<tempAccCount; i++) {
+						if(deleteAccount.equals(Integer.parseInt(UserManager.getInstance().userList[identifier].acc[i].accNumber))) {
+							delIdx = i;
+						}
+					}
+					
+					if (delIdx == -1) {
+						System.out.println("[메세지] 계좌번호를 확인하세요 \n");
+						continue;
+					}
+					else {
+						System.out.println("[메세지] 계좌번호: " +  UserManager.getInstance().userList[identifier].acc[delIdx].accNumber + "삭제되었습니다.");
+						Account[] temp = UserManager.getInstance().userList[identifier].acc;
+						UserManager.getInstance().userList[identifier].acc = new Account [tempAccCount-1];
+						
+						for(int i=0; i<delIdx; i++) {
+							UserManager.getInstance().userList[identifier].acc[i] = temp[i];
+						}
+						for(int i=delIdx; i<tempAccCount-1; i++) {
+							UserManager.getInstance().userList[identifier].acc[i] = temp[i+1];
+						}
+					}
 				}
-				
+				UserManager.getInstance().userList[identifier].accCnt --;
 			}
 			else if (selectMenu == 3) { // 조회
 				AccountManager.getInstance().printAcc(identifier);
