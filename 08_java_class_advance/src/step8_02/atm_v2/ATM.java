@@ -51,7 +51,7 @@ public class ATM {
 				AccountManager.getInstance().createAcc(identifier);
 				FileManager.getInstance().save();
 			}
-			else if (selectMenu == 2) { // 계좌삭제 (구현해보기) 17:40 ~ 18:33
+			else if (selectMenu == 2) { // 계좌삭제 (구현해보기) 2021/04/29 17:40 ~ 18:33 (실행X)
 				if (UserManager.getInstance().userList[identifier].accCnt == 0) { // 계좌를 생성하지 않은 경우
 					System.out.println("[메세지] 더 이상 삭제할 수 없습니다.\n");
 				}
