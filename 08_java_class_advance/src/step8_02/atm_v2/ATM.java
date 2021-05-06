@@ -52,38 +52,42 @@ public class ATM {
 				FileManager.getInstance().save();
 			}
 			else if (selectMenu == 2) { // 계좌삭제 (구현해보기) 2021/04/29 17:40 ~ 18:33 
+				Account[] temp = new Account[3];
 				if(UserManager.getInstance().userList[identifier].accCnt == 0) {
 					System.out.println("계좌를 생성해 주세요."); return;
 				}
 				
 				else if(UserManager.getInstance().userList[identifier].accCnt > 0) { // 계좌 출력
-					for(int i=0; i<3; i++) {
+					for(int i=0; i<UserManager.getInstance().userList[identifier].accCnt; i++) {
 						System.out.println("[" + (i+1) + "]" + UserManager.getInstance().userList[identifier].acc[i].accNumber);
 					} 
 				}
 				
 				if (UserManager.getInstance().userList[identifier].accCnt == 1) { // 계좌가 1개일 경우
-					UserManager.getInstance().userList[identifier].acc = null;
 					System.out.println("[메세지] 계좌번호: " + UserManager.getInstance().userList[identifier].acc[0].accNumber + " 삭제 되었습니다.");
 				}
-				else { // 계좌가 2개 이상일 경우
+				
+				else if (UserManager.getInstance().userList[identifier].accCnt > 1) { // 계좌가 2개 이상일 경우
 					System.out.println("삭제 하고 싶은 계좌번호를 입력하세요: ");
 					String deleteAccount = scan.next();
 					
-					Account[] temp = UserManager.getInstance().userList[identifier].acc; // temp배열에 acc 주소 공유
-					UserManager.getInstance().userList[identifier].acc = null;
-					
 					int j=0;
-					for(int i=0; i<3; i++) {
+					for(int i=0; i<UserManager.getInstance().userList[identifier].accCnt; i++) {
 						if(UserManager.getInstance().userList[identifier].acc[i].accNumber.equals(deleteAccount)) {
-							UserManager.getInstance().userList[identifier].acc[j] = temp[i];
+							temp[j] = UserManager.getInstance().userList[identifier].acc[i];
 							j++;
 						}
-						temp = null;
-						System.out.println("[메세지]" + deleteAccount + "가 삭제되었습니다.");
-						UserManager.getInstance().userList[identifier].accCnt --;
 					}
+					UserManager.getInstance().userList[identifier].acc = new Account[UserManager.getInstance().userList[identifier].accCnt-1];
+					System.out.println("[메세지]" + deleteAccount + "가 삭제되었습니다.");
 				}
+				
+				int j=0;
+				for(int i=0; i<UserManager.getInstance().userList[identifier].accCnt; i++) {
+					UserManager.getInstance().userList[identifier].acc[j] = temp[i];
+				} 
+				temp = null;
+				UserManager.getInstance().userList[identifier].accCnt --;
 			}
 			else if (selectMenu == 3) { // 조회
 				AccountManager.getInstance().printAcc(identifier);
