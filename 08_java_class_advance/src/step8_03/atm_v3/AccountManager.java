@@ -48,7 +48,7 @@ public class AccountManager {
 	}
 	
 	
-	int showAccList(String msg) { // 출금, 입금, 이체 시 모두 사용 하는 메서드
+	int showAccList(String msg) { // 출금, 입금, 이체, 삭제 시 모두 사용 하는 메서드
 		
 		int loginAccIndex = -1;
 
@@ -60,7 +60,7 @@ public class AccountManager {
 			}
 			
 			System.out.print("[" + msg + "]내 계좌를 메뉴에서 선택하세요 : "); // msg = 입금 -> [입금] 출력
-			loginAccIndex = ATM.scan.nextInt(); // loginAccindex에 위의 출력된 '[0+1] accList[0].number'에서 1을 입력
+			loginAccIndex = ATM.scan.nextInt(); // loginAccindex에 위의 출력된 '[0+1] accList[0].number'에서 1을 대입
 			loginAccIndex--; // 1-1 = 0
 		}
 		
@@ -134,13 +134,14 @@ public class AccountManager {
 		
 		int accIndex = 0;
 		
-		for (int i=0; i<userManager.userList[transUserIndex].accCount; i++) {
+		for (int i=0; i<userManager.userList[transUserIndex].accCount; i++) { // i=0; i<userList[0].accCount = 1 -> i<1; i++ -> i=0일때만 성립
 			if (transAccount.equals(userManager.userList[transUserIndex].accList[i].number)) {
-				accIndex = i;
+				accIndex = i; // transAccount(입력한 계좌번호)와 userList[0].accList[0].number(저장되어 있는 계좌번호)가 일치할 경우,
+				              // accIndex에 i=0 값 대입
 			}
 		}
 		
-		return accIndex;
+		return accIndex; // accIndex = 0 반환
 		
 	}
 	
@@ -163,11 +164,12 @@ public class AccountManager {
 		}
 		
 		int transAccIndex = getAccIndex(transUserIndex, transAccount); // transUserIndex = 0 (int) / transAccount = 입력한 계좌번호 (string)
+		                                                               // transAccIndex에 accIndex = 0 값 대입
 		
 		System.out.print("[이체]금액을 입력하세요 : ");
 		int money = ATM.scan.nextInt();
 		
-		if (money > userManager.userList[userManager.identifier].accList[loginAccIndex].money) {
+		if (money > userManager.userList[userManager.identifier].accList[loginAccIndex].money) { 
 			System.out.println("[메세지]계좌잔액이 부족합니다.\n");
 			return;
 		}
@@ -176,46 +178,46 @@ public class AccountManager {
 		userManager.userList[transUserIndex].accList[transAccIndex].money += money;
 		System.out.println("[메세지]이체를 완료하였습니다.\n");
 		
-		FileManager.getInstance().saveData();
+		FileManager.getInstance().saveData(); // 파일 저장
 	}
 	
 	
-	void lookupAcc() {
+	void lookupAcc() { // 계좌조회
 		userManager.userList[userManager.identifier].printOneUserAllAccounts();
 	}
 
 	
-	void deleteAcc() {
+	void deleteAcc() { // 계좌삭제
 		
-		int loginAccIndex = showAccList("삭제");
+		int loginAccIndex = showAccList("삭제"); // 삭제할 계좌번호의 인덱스가 반환 -> ex = 0
 		if (loginAccIndex == -1) {
 			System.out.println("[메세지]계좌를 먼저 생성해주세요.\n");
 			return;
 		}
 		
-		User user = userManager.userList[userManager.identifier];
+		User user = userManager.userList[userManager.identifier]; // user클래스 변수에 userList[0] 객체 대입
 		
-		if (user.accCount == 1) {
+		if (user.accCount == 1) { // 계좌가 1개일때, null로 없애기
 			user.accList = null;
 		}
-		else if(user.accCount > 1) {
-			Account[] acc = user.accList;
+		else if(user.accCount > 1) { // 계좌가 2개 이상 일때, ex) accCount=2일때
+			Account[] acc = user.accList; // acc배열에 accList 주소 공유
 			
-			user.accList = new Account[user.accCount - 1];
+			user.accList = new Account[user.accCount - 1]; // accList 배열 크기 줄여서 다시 생성
 			int j = 0;
-			for (int i=0; i<user.accCount; i++) {
-				if (i != loginAccIndex) {
-					user.accList[j] = acc[i];
-					j = j + 1;
+			for (int i=0; i<user.accCount; i++) { // i=0; i<2; i++ -> i= 0,1일때 성립
+				if (i != loginAccIndex) { // i의 값이 위의 loginAccIndex(삭제할 계좌번호의 인덱스)와 다를 경우
+					user.accList[j] = acc[i]; // 새로 생성한 accList[j] 배열에 acc[i]의 주소 공유
+					j = j + 1; // j++
 				}
 			}
 			acc = null;
 		}
-		user.accCount--;
+		user.accCount--; 
 		
 		System.out.println("[메세지]계좌삭제를 완료하였습니다.\n");
 		
-		FileManager.getInstance().saveData();
+		FileManager.getInstance().saveData(); // 파일 저장
 	
 	}
 	

@@ -22,14 +22,14 @@ public class User {
 		this.accCount = accCount;
 	}
 	
-	void printOneUserAllAccounts() {
+	void printOneUserAllAccounts() { // 계좌조회시 사용
 		if(accCount == 0) {
 			System.out.println(id + "\t" + password + "\t계좌를 개설해주세요.");
 		}
 		else if(accCount > 0) {
-			System.out.print(id + "\t" + password + "\t");
+			System.out.print(id + "\t" + password + "\t"); // 계좌가 1개 이상일때
 			for (int i=0; i<accCount; i++) {
-				System.out.print(accList[i].number + "/" + accList[i].money + "원;");
+				System.out.print(accList[i].number + "/" + accList[i].money + "원;"); // 출력
 			}
 			System.out.println();
 		}

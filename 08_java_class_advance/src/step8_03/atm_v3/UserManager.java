@@ -124,19 +124,21 @@ public class UserManager { // 싱글턴 패턴
 	}
 	
 	
-	void leaveUser() {
+	void leaveUser() { // 회원탈퇴
 		
-		if (userCount == 1) {
+		if (userCount == 1) { // userCount == 1일때, (계좌가 1개밖에 없을때) null로 없애기
 			userList = null;
 		}
-		else if (userCount > 1) {
-			User[] temp = userList;
-			userList = new User[userCount - 1];
+		else if (userCount > 1) { // userCount가 2 이상일때, (계좌가 2개 이상 생성되어 있을때)
+			User[] temp = userList; // temp 클래스 배열에 userList의 주소 공유
+			userList = new User[userCount - 1]; // userList 크기 줄여 다시 생성
 			
 			int j = 0;
-			for (int i=0; i<userCount; i++) {
-				if (i != identifier) {
-					userList[j++] = temp[i];
+			for (int i=0; i<userCount; i++) { // ex) userCount = 3 (계좌가 3개일 경우)일 시,
+				                              // i=0; i<3; i++ -> i 0.1.2일때 성립
+				if (i != identifier) { // i 가 identifier(로그인 되어 있는 아이디의 인덱스)와 다를경우
+					userList[j++] = temp[i]; // userList에 temp[i]의 주소 공유
+					                         // userList[j++] = userList[j] , j++ 과 같음 
 				}
 			}
 		}
@@ -144,7 +146,7 @@ public class UserManager { // 싱글턴 패턴
 		
 		System.out.println("[메세지]탈퇴되었습니다.\n");
 		logoutUser();
-		FileManager.getInstance().saveData();
+		FileManager.getInstance().saveData(); // 파일 저장
 				
 	}
 	
@@ -175,7 +177,7 @@ public class UserManager { // 싱글턴 패턴
 	}
 	
 	
-	void logoutUser() {
+	void logoutUser() { // 뒤로 가기
 		identifier = -1;
 		System.out.println("[메세지]로그아웃되었습니다.\n");
 	}
