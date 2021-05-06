@@ -3,7 +3,7 @@ package step8_02.atm_v2;
 import java.util.Random;
 import java.util.Scanner;
 
-public class AccountManager {
+public class AccountManager { // 싱글턴패턴
 
 	private AccountManager() {}
 	private static AccountManager instance = new AccountManager();
@@ -15,7 +15,7 @@ public class AccountManager {
 	Random ran = new Random();
 	UserManager um = UserManager.getInstance();
 
-	void createAcc(int identifier) { //현재 indentifier = 0
+	void createAcc(int identifier) { // 계좌생성 현재 indentifier = 0
 		
 		int accCntByUser = um.userList[identifier].accCnt; // accCntByUser = 0
 		
@@ -39,7 +39,7 @@ public class AccountManager {
 	}
 	
 	
-	void printAcc(int identifier) {
+	void printAcc(int identifier) { //조회
 		
 		User temp = um.userList[identifier]; // temp에 userList[0] 주소 공유
 		System.out.println("====================");
@@ -50,6 +50,20 @@ public class AccountManager {
 		}
 		System.out.println("=============================\n");
 		
+	}
+	
+	int printAccNumber(int identifier) { // 계좌삭제구현시 필요한 메서드 생성
+		int deleteAccIndex = -1;
+		if(UserManager.getInstance().userList[identifier].accCnt > 0) { // 계좌가 있는 경우
+			for(int i=0; i<UserManager.getInstance().userList[identifier].accCnt; i++) {
+			System.out.println("[" + (i+1) + "]"+ UserManager.getInstance().userList[identifier].acc[i].accNumber);
+			}
+			System.out.println("[메세지] 계좌를 선택하세요 >> ");
+			int choice = scan.nextInt();
+			choice --;
+			deleteAccIndex = choice;
+		}
+		return deleteAccIndex;
 	}
 	
 }

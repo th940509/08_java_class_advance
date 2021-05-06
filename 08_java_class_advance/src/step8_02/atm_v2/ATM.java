@@ -51,44 +51,34 @@ public class ATM {
 				AccountManager.getInstance().createAcc(identifier);
 				FileManager.getInstance().save();
 			}
-			else if (selectMenu == 2) { // 계좌삭제 (구현해보기) 2021/04/29 17:40 ~ 18:33 
-				Account[] temp = new Account[3];
-				if(UserManager.getInstance().userList[identifier].accCnt == 0) {
-					System.out.println("계좌를 생성해 주세요."); return;
+			else if (selectMenu == 2) { // 계좌삭제 (구현해보기) 2021/05/7 17:00 ~ 18:33 
+				int deleteAccIndex = AccountManager.getInstance().printAccNumber(identifier);
+				if(deleteAccIndex == -1) {
+					System.out.println("[메세지] 계좌를 먼저 생성해 주세요");
+					continue;
 				}
 				
-				else if(UserManager.getInstance().userList[identifier].accCnt > 0) { // 계좌 출력
-					for(int i=0; i<UserManager.getInstance().userList[identifier].accCnt; i++) {
-						System.out.println("[" + (i+1) + "]" + UserManager.getInstance().userList[identifier].acc[i].accNumber);
-					} 
-				}
-				
-				if (UserManager.getInstance().userList[identifier].accCnt == 1) { // 계좌가 1개일 경우
+				if(UserManager.getInstance().userList[identifier].accCnt == 1) { //계좌 1개일떄
 					UserManager.getInstance().userList[identifier].acc = null;
-					System.out.println("[메세지] 계좌번호: " + UserManager.getInstance().userList[identifier].acc[0].accNumber + " 삭제 되었습니다.");
 				}
 				
-				else if (UserManager.getInstance().userList[identifier].accCnt > 1) { // 계좌가 2개 이상일 경우
-					System.out.println("삭제 하고 싶은 계좌번호를 입력하세요: ");
-					String deleteAccount = scan.next();
+				else if(UserManager.getInstance().userList[identifier].accCnt > 1) { //계좌 2개 이상일떄
+					Account[] temp = UserManager.getInstance().userList[identifier].acc; //주소 공유
+					UserManager.getInstance().userList[identifier].acc = new Account[UserManager.getInstance().userList[identifier].accCnt-1];
 					
 					int j=0;
 					for(int i=0; i<UserManager.getInstance().userList[identifier].accCnt; i++) {
-						if(UserManager.getInstance().userList[identifier].acc[i].accNumber.equals(deleteAccount)) {
-							temp[j] = UserManager.getInstance().userList[identifier].acc[i];
+						if(i != deleteAccIndex) {
+							UserManager.getInstance().userList[identifier].acc[j] = temp[i];
 							j++;
 						}
 					}
-					UserManager.getInstance().userList[identifier].acc = new Account[UserManager.getInstance().userList[identifier].accCnt-1];
-					System.out.println("[메세지]" + deleteAccount + "가 삭제되었습니다.");
+					temp = null;
 				}
+				UserManager.getInstance().userList[identifier].accCnt--;
+				FileManager.getInstance().save();
 				
-				int j=0;
-				for(int i=0; i<UserManager.getInstance().userList[identifier].accCnt; i++) {
-					UserManager.getInstance().userList[identifier].acc[j] = temp[i];
-				} 
-				temp = null;
-				UserManager.getInstance().userList[identifier].accCnt --;
+				System.out.println("[메세지] 계좌가 삭제되었습니다.");
 			}
 			else if (selectMenu == 3) { // 조회
 				AccountManager.getInstance().printAcc(identifier);
