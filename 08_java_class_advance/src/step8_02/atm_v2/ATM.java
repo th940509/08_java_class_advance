@@ -64,6 +64,7 @@ public class ATM {
 				}
 				
 				if (UserManager.getInstance().userList[identifier].accCnt == 1) { // 계좌가 1개일 경우
+					UserManager.getInstance().userList[identifier].acc = null;
 					System.out.println("[메세지] 계좌번호: " + UserManager.getInstance().userList[identifier].acc[0].accNumber + " 삭제 되었습니다.");
 				}
 				
