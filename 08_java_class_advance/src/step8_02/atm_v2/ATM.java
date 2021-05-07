@@ -55,7 +55,7 @@ public class ATM {
 				int deleteAccIndex = AccountManager.getInstance().printAccNumber(identifier);
 				if(deleteAccIndex == -1) {
 					System.out.println("[메세지] 계좌를 먼저 생성해 주세요");
-					continue;
+					return;
 				}
 				
 				if(UserManager.getInstance().userList[identifier].accCnt == 1) { //계좌 1개일떄
