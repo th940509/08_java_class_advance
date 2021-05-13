@@ -1,5 +1,5 @@
 package step8_02.atm_v2;
-//2021/04/29 15:38 ~ 18:35
+//2021/04/29 15:38 ~ 18:35 (분석)
 public class Main { // 1. Main 찾기
 	
 	public static void main(String[] args) {
