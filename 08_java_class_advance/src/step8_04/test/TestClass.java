@@ -1,5 +1,4 @@
 package step8_04.test;
-//2021/05/07 16:05 ~ 
 import java.util.ArrayList;
 
 class Member {
